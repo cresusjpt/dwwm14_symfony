@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,15 @@ class ProductController extends AbstractController
         ]);
     }
 
+    public function getImage(FormInterface $form)
+    {
+        $images = $form->get('images')->getData();
+        $fichier = md5(uniqid()) . '.' . $images->guessExtension();
+        $images->move($this->getParameter('dossier_image'), $fichier);
+
+        return $fichier;
+    }
+
     #[Route('/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -31,6 +41,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $product->setImage($this->getImage($form));
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -58,8 +69,8 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $product->setImage($this->getImage($form));
             $entityManager->flush();
-
             return $this->redirectToRoute('product_index', [], Response::HTTP_SEE_OTHER);
         }
 

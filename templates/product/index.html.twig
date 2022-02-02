@@ -1,14 +1,12 @@
 {% extends 'backendbase.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Liste des produits{% endblock %}
 
 {% block body %}
-    <h1>Product index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Size</th>
@@ -22,7 +20,6 @@
         <tbody>
         {% for product in products %}
             <tr>
-                <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.size }}</td>
@@ -31,8 +28,8 @@
                 <td>{{ product.price }}</td>
                 <td>{{ product.qteStock }}</td>
                 <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                    <a href="{{ path('product_show', {'id': product.id}) }}">Afficher</a>
+                    <a href="{{ path('product_edit', {'id': product.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
