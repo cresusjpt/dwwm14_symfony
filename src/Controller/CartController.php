@@ -9,7 +9,11 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class CartController extends AbstractController
 {
 
@@ -43,6 +47,51 @@ class CartController extends AbstractController
         ]);
     }
 
+    #[Route('/cart-remove/{id}', name: 'cart-remove')]
+    public function remove(Product $product, Session $session): Response
+    {
+        $cart = $session->get($this->getParameter('cart_variable'), []);
+        foreach ($cart as $key => $detail) {
+            if ($detail->getDetailProduct()->getId() == $product->getId()) {
+                unset($cart[$key]);
+            }
+        }
+
+        $session->set($this->getParameter('cart_variable'), $cart);
+        return $this->redirectToRoute('cart-size');
+    }
+
+    #[Route('/cart-plus/{id}', name: 'cart-plus')]
+    public function plus(Product $product, Session $session): Response
+    {
+        $cart = $session->get($this->getParameter('cart_variable'), []);
+        foreach ($cart as $detail) {
+            if ($detail->getDetailProduct()->getId() == $product->getId()) {
+                $detail->setQte($detail->getQte() + 1);
+            }
+        }
+
+        $session->set($this->getParameter('cart_variable'), $cart);
+        return $this->redirectToRoute('cart-size');
+    }
+
+    #[Route('/cart-minus/{id}', name: 'cart-minus')]
+    public function minus(Product $product, Session $session): Response
+    {
+        $cart = $session->get($this->getParameter('cart_variable'), []);
+        foreach ($cart as $key => $detail) {
+            if ($detail->getDetailProduct()->getId() == $product->getId()) {
+                $detail->setQte($detail->getQte() - 1);
+                if ($detail->getQte() == 0) {
+                    unset($cart[$key]);
+                }
+            }
+        }
+
+        $session->set($this->getParameter('cart_variable'), $cart);
+        return $this->redirectToRoute('cart-size');
+    }
+
     // ajouter au panier
     // je recalcul sa taille
     // afficher cette taille
@@ -55,7 +104,7 @@ class CartController extends AbstractController
 
         $cookie = Cookie::create('size', $size, time() * 3600);
 
-        $response = $this->redirectToRoute('home');
+        $response = $this->redirectToRoute('cart-list');
         $response->headers->setCookie($cookie);
 
         return $response;

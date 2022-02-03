@@ -6,6 +6,7 @@
 parameters:
     dossier_image: "%kernel.project_dir%/public/images/"
     cart_variable: "cart"
+    stripe_key: "sk_test_51K8mneBMinkl8pzNlQWbSpDW1SwiwOSxGG8DphVGoPP3z0BMUrftdMTC8cfSSPH0wE58XhwOa2RMs3Nn6AQUZdnx00G21AGioI"
 
 services:
     # default configuration for services in *this* file
