@@ -7,12 +7,76 @@
 	{% for flashError in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
 	{% endfor %}
-
-	<h1>Register</h1>
-
 	{# form()
-					    form_row()
-					    form_widget('name')
-					    form_label('name') #}
+							    form_row()
+							    form_widget('name')
+							    form_label('name') #}
 
-	{{form(registrationForm) }}{% endblock %}
+	{% for flashError in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+	{% endfor %}
+
+	<form method="post">
+		<img class="mb-4" src="{{ asset('build/images/bootstrap-logo.svg') }}" alt="" width="72" height="57">
+		<h1 class="h3 mb-3 font-weight-normal fw-normal">Inscription</h1>
+
+		<div class="alert">
+			{{ form_errors(registrationForm) }}
+		</div>
+		<div class="form-floating">
+			<input type="text" name="{{registrationForm.email.vars.full_name}}" class="form-control" id="{{registrationForm.email.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.email.vars.id}}">{{registrationForm.email.vars.label}}</label>
+			{{ form_errors(registrationForm.email) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="password" name="{{registrationForm.plainPassword.vars.full_name}}" class="form-control" id="{{registrationForm.plainPassword.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.plainPassword.vars.id}}">{{registrationForm.plainPassword.vars.label}}</label>
+			{{ form_errors(registrationForm.plainPassword) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="text" name="{{registrationForm.name.vars.full_name}}" class="form-control" id="{{registrationForm.name.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.name.vars.id}}">{{registrationForm.name.vars.label}}</label>
+			{{ form_errors(registrationForm.name) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="text" name="{{registrationForm.surname.vars.full_name}}" class="form-control" id="{{registrationForm.surname.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.surname.vars.id}}">{{registrationForm.surname.vars.label}}</label>
+			{{ form_errors(registrationForm.name) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="text" name="{{registrationForm.city.vars.full_name}}" class="form-control" id="{{registrationForm.city.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.city.vars.id}}">{{registrationForm.city.vars.label}}</label>
+			{{ form_errors(registrationForm.city) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="textarea" name="{{registrationForm.address.vars.full_name}}" class="form-control" id="{{registrationForm.address.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.address.vars.id}}">{{registrationForm.address.vars.label}}</label>
+			{{ form_errors(registrationForm.address) }}
+		</div>
+
+		<div class="form-floating">
+			<input type="text" class="form-control" name="{{registrationForm.pobox.vars.full_name}}" id="{{registrationForm.pobox.vars.id}}" placeholder="Password">
+			<label for="{{registrationForm.pobox.vars.id}}">{{registrationForm.pobox.vars.label}}</label>
+			{{ form_errors(registrationForm.pobox) }}
+		</div>
+
+		<div class="checkbox mb-3">
+			<label>
+				<input type="checkbox" name="{{registrationForm.agreeTerms.vars.full_name}}" value="{{registrationForm.agreeTerms.vars.label}}">
+				{{registrationForm.agreeTerms.vars.label}}
+			</label>
+			{{ form_errors(registrationForm.agreeTerms) }}
+		</div>
+		{{ form_row(registrationForm._token) }}
+		<button type="submit" class="w-100 btn btn-lg btn-primary">S'enrégistrer</button>
+		<p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+	</form>
+	<p>
+		<a href="{{path('app_login')}}">Se connecter</a>
+	</p>
+{% endblock %}

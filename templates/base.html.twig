@@ -11,6 +11,45 @@
 		{% endblock %}
 	</head>
 	<body>
+		<div class="container">
+			<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+				<a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+					<img class="mb-4" src="{{ asset('build/images/bootstrap-logo.svg') }}" alt="" width="72" height="57">La Boutique DWWM14
+				</a>
+
+				<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+					{% if is_granted("ROLE_ADMIN") %}
+						<li>
+							<a href="{{path('admin_index')}}" class="nav-link px-2 link-secondary">Admin</a>
+						</li>
+					{% endif %}
+					{% if is_granted("ROLE_STOCK") %}
+						<li>
+							<a href="{{path('stock')}}" class="nav-link px-2 link-dark">Stock</a>
+						</li>
+					{% endif %}
+					{% if is_granted("ROLE_USER") %}
+						<li>
+							<a href="{{path('cart-list')}}" class="nav-link px-2 link-dark">Panier({{app.request.cookies.get('size')}})</a>
+						</li>
+						<li>
+							<a href="{{path('profile')}}" class="nav-link px-2 link-dark">Profil</a>
+						</li>
+					{% endif %}
+				</ul>
+
+				<div class="col-md-3 text-end">
+					{% if is_granted("ROLE_USER") %}
+						<a href="{{path('app_logout')}}" class="btn btn-outline-primary me-2">Déconnexion</a>
+					{% else %}
+						<a href="{{path('app_login')}}" class="btn btn-outline-primary me-2">Connexion</a>
+						<a href="{{path('app_register')}}" class="btn btn-primary">Inscription</a>
+					{% endif %}
+				</div>
+			</header>
+		</div>
+
+
 		{% block body %}{% endblock %}
 
 		{% block javascripts %}

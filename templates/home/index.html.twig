@@ -1,42 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}Liste des produits
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<div class="container px-4 py-5" id="custom-cards">
+		<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
 
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
-
-		This friendly message is coming from:
-
-		{# application de rôle #}
-		{% if is_granted('ROLE_USER') %}
-			<ul>
-				<li>Your controller at
-					<code>
-						<a href="{{ 'C:/Users/JeanpaulTossou/Desktop/Autoentrepreneur/perfect/dwwm14/symfonyproject/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a>
-					</code>
-				</li>
-				<li>Your template at
-					<code>
-						<a href="{{ 'C:/Users/JeanpaulTossou/Desktop/Autoentrepreneur/perfect/dwwm14/symfonyproject/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
-					</code>
-				</li>
-			</ul>
-		{% endif %}
+			{% for item in produits %}
+				<div class="col">
+					<div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('images/{{item.image}}');">
+						<div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+							<h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{item.name}}</h2>
+							<ul class="d-flex list-unstyled mt-auto">
+								<li class="me-auto">
+									<a href="{{path('cart', {'id':item.id} )}}"><img src="data:image/png;base64,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" alt="Bootstrap" width="50" height="50" class="rounded-circle border border-white"></a>
+								</li>
+								<li class="d-flex align-items-center me-3">
+									<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+									<small>{{item.category.name}}</small>
+								</li>
+								<li class="d-flex align-items-center">
+									<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+									<small>{{item.qteStock}}</small>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
+
+	<div class="b-example-divider"></div>
 {% endblock %}

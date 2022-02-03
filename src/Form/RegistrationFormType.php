@@ -25,6 +25,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => 'Email',
                 'mapped' => false,
                 'constraints' => [
                     new Email([
@@ -37,6 +38,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -56,11 +58,13 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('name', TextType::class, [
+                'label' => 'Nom',
                 'constraints' => [
                     new NotBlank(),
                 ]
             ])
             ->add('surname', null, [
+                'label' => 'Prénom',
                 'label' => 'Prénom',
                 'constraints' => [
                     new NotBlank(),
@@ -73,6 +77,7 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('address', TextareaType::class, [
+                'label' => 'Adresse',
                 'constraints' => [
                     new NotBlank(),
                 ],
@@ -81,8 +86,11 @@ class RegistrationFormType extends AbstractType
                     'cols' => 30,
                 ]
             ])
-            ->add('pobox', NumberType::class)
+            ->add('pobox', NumberType::class, [
+                'label' => 'Boite postale',
+            ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => "Accepter nos conditions d'utilisation",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([

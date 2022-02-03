@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     dossier_image: "%kernel.project_dir%/public/images/"
+    cart_variable: "cart"
 
 services:
     # default configuration for services in *this* file
