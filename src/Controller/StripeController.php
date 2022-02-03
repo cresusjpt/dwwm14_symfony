@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\Payment;
+use App\Entity\User;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +29,8 @@ class StripeController extends AbstractController
         $order = new Order();
         $order->setState(false);
         $order->setCreatedAt(new DateTimeImmutable());
-        $order->setCustomer($this->getUser()->getCustomer());
+        $user = (User) $this->getUser();
+        $order->setCustomer($user->getCustomer());
 
         $entityManagerInterface->persist($order);
 
